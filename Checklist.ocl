@@ -1,0 +1,4 @@
+class Checklist
+    Name            :string
+    Tasks<0..n>     :Task       <backNav: InList>
+end class

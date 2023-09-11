@@ -1,0 +1,44 @@
+class Task
+    Name        :string
+    CreatedAt   :date
+    CreatedBy   :User
+    IsFinished  :boolean
+    FinishedAt  :date
+    Order       :integer
+    Description :string
+    Priority    :integer
+    'InList(0..1) :Checklist
+    'Responsible(0..1) :User
+    
+end class
+
+context Task::OnAfterCreate
+post:
+    self.CreatedAt = system.GetSystemDate()
+    self.CreatedBy = user
+    self.Order = self.InList.Tasks.max(element.Order) + 1
+
+
+
+context Task::Describe :string
+post:
+    let finishedDesc :string = "" in
+
+    if self.IsFinished then
+        finishedDesc = " finished by " + self.Responsible.Name + " at " + self.FinishedAt
+    end if
+
+    result = self.Name + " created by " + self.CreatedBy.Name + " at " + self.CreatedAt + finishedDesc
+
+
+
+context Task::setFinished(value :boolean)
+post:
+    self.IsFinished = value
+    if value = true then
+        self.FinishedAt = system.GetSystemDate()
+    else
+        self.FinishedAt.SetNullDate()
+    end if
+    
+

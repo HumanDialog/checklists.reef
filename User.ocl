@@ -1,0 +1,8 @@
+class User
+    login   :string
+	groupid :integer
+    Name    :string
+    Email   :string
+    MyTasks[0..n] :Task <backNav: Responsible(0..1)>
+end class
+    

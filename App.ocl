@@ -1,0 +1,54 @@
+
+class App                   
+    Lists<0..n>     :Checklist  <backNav: InApp>
+    Users<all>      :User
+end class 
+
+
+context App::OnAfterCreate
+post:
+    let firstList :Checklist in
+    
+    firstList = self.Lists.newElement
+    firstList.Name = "Things to do"
+
+
+context App::InitSample
+post:
+    ' Clear previous data
+    self.Lists.removeAll
+    self.Users.removeAll
+
+    ' Add some data
+    let list :Checklist in
+    list = self.Lists.newElement
+    list.Name = "Shopping list"
+        list.Tasks.newElement(element.Name = "Butter")
+        list.Tasks.newElement(element.Name = "Milk")
+        list.Tasks.newElement(element.Name = "Bread")
+        list.Tasks.newElement(element.Name = "Tomato")
+        list.Tasks.newElement(element.Name = "Lettuce")
+        list.Tasks.newElement(element.Name = "Beer")
+        list.Tasks.newElement(element.Name = "Honey")
+
+    list = self.Lists.newElement
+    list.Name = "Movies to watch" 
+        list.Tasks.newElement(element.Name = "From Dusk Till Dawn")
+        list.Tasks.newElement(element.Name = "The Lion King")
+        list.Tasks.newElement(element.Name = "Back to the Future")
+
+    list = self.Lists.newElement
+    list.Name = "Places to visit" 
+        list.Tasks.newElement(element.Name = "Paris")
+        list.Tasks.newElement(element.Name = "Swiss Alps")
+        list.Tasks.newElement(element.Name = "Bora Bora")
+        list.Tasks.newElement(element.Name = "Rio de Janeiro")
+
+    ' Add sample users
+    let alice :User = new User in
+    alice.login = "alice@example.com"
+    alice.Name = "Alice"
+
+    let bob :User = new User in
+    bob.login = "bob@example.com"
+    bob.Name = "Bob"
